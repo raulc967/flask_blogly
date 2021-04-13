@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+    {% block content %}
+    <form action="/update_user/{{ user.id }}" method="POST">
+        <label for='first'>Update first name:</label>
+        <input type='text' name='first'><br>
+        <label for='last'>Update last name:</label>
+        <input type='text' name='last'><br>
+        <label for='url'>Update URL:</label>
+        <input type='text' name='url'><br>
+        <button>Update User</button>
+    </form>
+    {% endblock %}
