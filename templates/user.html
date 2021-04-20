@@ -3,6 +3,12 @@
         <h1>This is {{ user.first_name }}</h1>
         <h2>{{ user.last_name }}</h2>
         <img src='{{ user.image_url }}'>
+        <form action="/{{ user.id }}/posts" method="GET">
+            <button>See Posts</button>
+        </form>
+        <form action="/{{ user.id }}/create_post" method="GET">
+            <button>Create Posts</button>
+        </form>
         <form action="/delete_user/{{ user.id }}" method="POST">
             <button>Delete User</button>
         </form>
