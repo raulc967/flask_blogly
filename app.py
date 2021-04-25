@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, render_template, redirect, request
-from models import db, connect_db, User, Posts
+from models import db, connect_db, User, Posts, PostTag, Tag
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Mochii007@localhost:5432/blogly'
@@ -116,3 +116,44 @@ def update_page(user):
     
     user = User.query.get(user)
     return render_template('update.html', user=user)
+
+@app.route('/tags')
+def show_tags():
+    tags = Tag.query.all()
+    return render_template('tags.html', tags=tags)
+
+@app.route('/tags/<tag_id>')
+def single_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    return render_template('tag.html', tag=tag)
+
+@app.route('/tags/new')
+def create_tag():
+    return render_template('createTag.html')
+
+@app.route('/tags/new', methods = ['POST'])
+def create_tag_post():
+    name = Tag(name = request.form.get('name'))
+    db.session.add(name)
+    db.session.commit()
+    return redirect('/tags')
+
+@app.route('/tags/<tag_id>/edit')
+def edit_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    return render_template('editTag.html', tag=tag)
+
+@app.route('/tags/<tag_id>/edit', methods = ['POST'])
+def edit_tag_post(tag_id):
+    tag = Tag.query.get(tag_id)
+    tag.name = request.form.get('name')
+    db.session.add(tag)
+    db.session.commit()
+    return redirect('/tags')
+
+@app.route('/tags/<tag_id>/delete', methods = ['POST'])
+def delete_tag(tag_id):
+    tag = Tag.query.get(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    return redirect('/tags')

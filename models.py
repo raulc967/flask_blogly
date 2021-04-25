@@ -25,3 +25,15 @@ class Posts(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
+
+class PostTag(db.Model):
+    """ This is a model for the tags that are on the posts """
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), primary_key=True)
+
+
+class Tag(db.Model):
+    """ This is a model for the tags """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False, unique=True)
+    posts = db.relationship('Posts', secondary="post_tag", backref="tag")

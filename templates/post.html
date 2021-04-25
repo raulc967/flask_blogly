@@ -5,6 +5,10 @@
             {% for u in user %}
                 <h2>By: {{ u.first_name }} {{ u.last_name }}</h2>
             {% endfor %}
+            <h3>Tags:</h3>
+            {% for tag in p.tags %}
+                <h5>{{ tag.name }}</h5>
+            {% endfor %}
             <h4>Created at: {{ p.created_at }}</h4>
             <p>{{ p.content }}</p>
             <form action="/{{ user[0].id }}/post/delete/{{ p.id }}" method="POST">
@@ -12,6 +16,9 @@
             </form>
             <form action="/{{ user[0].id }}/post/edit/{{ p.id }}" method="GET">
                 <button>Edit</button>
+            </form>
+            <form action="/tags/new" method="GET">
+                <button>Add Tag</button>
             </form>
         {% endfor %}
     {% endblock %}
